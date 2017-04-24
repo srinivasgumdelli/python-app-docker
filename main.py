@@ -3,7 +3,7 @@ import json
 import hashlib
 from pymemcache.client.base import Client
 
-client = Client(('localhost', 11211))
+client = Client(('memcached', 11211))
  
 class MessageResource:
     def on_post(self, req, resp):
