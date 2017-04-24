@@ -11,6 +11,7 @@ class MessageResource:
         input = json.loads(req.stream.read().decode('utf-8'))
         digest = hashlib.sha256(input['message']).hexdigest()
         client.set(digest, input['message'])
+        resp.status = falcon.HTTP_201
         digest_json  = {
                 'digest': digest
                 }
