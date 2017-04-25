@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   web:
     build: .
@@ -8,7 +8,9 @@ services:
      - default
     volumes:
      - .:/code
+    restart: always
   memcached:
     image: "memcached:1.4.36-alpine"
     ports:
      - "11211:11211"
+    restart: always
