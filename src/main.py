@@ -1,6 +1,7 @@
 import falcon
-import json
 import hashlib
+import json
+
 from pymemcache.client.base import Client
 
 client = Client(('memcached', 11211))
