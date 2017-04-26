@@ -8,7 +8,11 @@ client = Client(('memcached', 11211))
  
 class MessageResource:
     def on_post(self, req, resp):
-        """Handles GET requests"""
+        """
+        Handles POST requests, creates a digest for a message and stores
+        it in memcached as "digest: message" format. The duplicates should
+        be handled automatically and returns a 201 status code
+        """
         input = json.loads(req.stream.read().decode('utf-8'))
         digest = hashlib.sha256(input['message']).hexdigest()
         client.set(digest, input['message'])
@@ -20,7 +24,11 @@ class MessageResource:
         resp.body = json.dumps(digest_json)
 
     def on_get(self, req, resp, digest):
-        """ Handles GET Requests"""
+        """
+        Handles GET requests, retrieves a message for digest, if it does not
+        exist, returns a 404 status code; 200 status code along with the
+        original message otherwise
+        """
         message = client.get(digest)
         if message is None:
             resp.status = falcon.HTTP_404
